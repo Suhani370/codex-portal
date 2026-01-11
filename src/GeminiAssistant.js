@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Suhani, maine aapki key yahan add kar di hai
 const genAI = new GoogleGenerativeAI("AIzaSyAxi9-cQT-vQi80Y6FmDgx8xh3GJWt0T88"); 
 
 const GeminiAssistant = () => {
@@ -16,23 +15,23 @@ const GeminiAssistant = () => {
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       
-      const prompt = `Act as a Global Hackathon Scout (like Unstop). 
-      Search for real upcoming "${query}" hackathons worldwide in 2026.
-      For each event, provide:
-      🏆 **Name & Organizer**
-      📅 **Date (2026)**
-      📍 **Location (City/Online)**
-      💰 **Prize Pool**
-      ⏳ **Deadline**
-      🔗 **Registration Link**
+      // Strict Prompt for Real Data
+      const prompt = `You are a professional Hackathon Scout. Search for ACTUAL upcoming "${query}" hackathons in 2026.
+      For each event, you MUST provide:
+      1. 🏆 **Name of Event**
+      2. 📅 **Exact Dates (2026)**
+      3. 📍 **Venue/Online**
+      4. 💰 **Specific Prize Pool**
+      5. 🔗 **Direct Registration Link (URL)**
       
-      Format with bold headings and emojis for a professional UI.`;
+      Important: Do not make up fake links. Use real data from sites like Unstop, Devfolio, or Devpost. 
+      Format each result clearly with emojis.`;
 
       const result = await model.generateContent(prompt);
       setResults(result.response.text());
     } catch (error) {
       console.error(error);
-      setResults("System busy or API error. Please try again in a moment.");
+      setResults("Connection error. Please check your internet or API key.");
     }
     setLoading(false);
   };
@@ -40,10 +39,10 @@ const GeminiAssistant = () => {
   return (
     <div className="bg-[#0f172a] p-8 rounded-3xl border border-blue-500/20 mt-10 shadow-2xl">
       <div className="flex items-center gap-3 mb-6">
-        <span className="text-3xl animate-bounce">🌐</span>
+        <div className="bg-blue-600 p-2 rounded-lg animate-pulse">🌐</div>
         <div>
           <h3 className="text-2xl font-bold text-white">Global AI Scout</h3>
-          <p className="text-blue-400 text-sm">Real-time 2026 Hackathon Tracker</p>
+          <p className="text-blue-400 text-sm">Real-time Global Search Engine</p>
         </div>
       </div>
 
@@ -52,20 +51,20 @@ const GeminiAssistant = () => {
           type="text" 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Ex: 'AI hackathons in India' or 'Web3 global events'..."
-          className="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Search global events (e.g. 'NASA hackathon' or 'AI India')..."
+          className="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-blue-500 transition-all"
         />
         <button 
           onClick={searchHackathons}
           disabled={loading}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-4 rounded-2xl transition-all shadow-lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-4 rounded-2xl transition-all shadow-lg active:scale-95 disabled:opacity-50"
         >
-          {loading ? 'Searching...' : 'Search Live'}
+          {loading ? 'Fetching Real-time...' : 'Scout World'}
         </button>
       </div>
 
       {results && (
-        <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 animate-in fade-in duration-500">
+        <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 animate-in slide-in-from-bottom-5 duration-500">
           <div className="text-slate-200 text-sm md:text-base leading-relaxed whitespace-pre-wrap">
             {results}
           </div>
