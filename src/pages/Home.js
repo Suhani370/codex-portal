@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import HackathonCard from '../components/HackathonCard'; 
 import { HACKATHONS } from '../data';
 import GeminiAssistant from '../GeminiAssistant'; 
+import CalendarView from '../components/CalendarView'; // Ye line dhyan se check karein
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
@@ -80,7 +81,16 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 2. Main Grid Area */}
+      {/* 2. Calendar View Section - Naya Section yahan add kiya hai */}
+      <section className="mt-10 animate-in fade-in duration-700">
+        <div className="mb-6">
+          <h2 className="text-3xl font-extrabold text-white tracking-tight">Timeline View</h2>
+          <p className="text-slate-400 mt-1">Track hackathons across the month.</p>
+        </div>
+        <CalendarView hackathons={filteredHackathons} />
+      </section>
+
+      {/* 3. Main Grid Area */}
       <section>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
           <div>
@@ -112,7 +122,7 @@ const Home = () => {
         )}
       </section>
 
-      {/* 3. AI Assistant Section */}
+      {/* 4. AI Assistant Section */}
       <section className="pt-10 border-t border-slate-800">
         <GeminiAssistant />
       </section>
