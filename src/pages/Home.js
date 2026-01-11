@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import HackathonCard from '../components/HackathonCard'; 
 import { HACKATHONS } from '../data';
-// Sahi path check karein - src/GeminiAssistant.js se import ho raha hai
 import GeminiAssistant from '../GeminiAssistant'; 
 
 const MONTHS = [
@@ -40,7 +39,6 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Search Box */}
           <div className="space-y-3">
             <label className="text-sm font-semibold text-slate-300 ml-1">Search by name</label>
             <input 
@@ -52,7 +50,6 @@ const Home = () => {
             />
           </div>
 
-          {/* City Dropdown */}
           <div className="space-y-3">
             <label className="text-sm font-semibold text-slate-300 ml-1">Select City</label>
             <select 
@@ -67,7 +64,6 @@ const Home = () => {
             </select>
           </div>
 
-          {/* Month Dropdown */}
           <div className="space-y-3">
             <label className="text-sm font-semibold text-slate-300 ml-1">Select Month</label>
             <select 
@@ -116,7 +112,7 @@ const Home = () => {
         )}
       </section>
 
-      {/* 3. AI Assistant Section (Always Visible) */}
+      {/* 3. AI Assistant Section */}
       <section className="pt-10 border-t border-slate-800">
         <GeminiAssistant />
       </section>
