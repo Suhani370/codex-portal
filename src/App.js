@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import GeminiAssistant from './GeminiAssistant'; // Ye file humne pehle banayi thi
 
 function App() {
   const [page, setPage] = useState('home');
@@ -29,16 +28,7 @@ function App() {
       
       <main className="max-w-7xl mx-auto px-4 py-10">
         {page === 'home' ? (
-          <div>
-            <Home />
-            {/* Google Gemini Yahan Add Ho Gaya */}
-            <div className="mt-12">
-              <h2 className="text-2xl font-bold mb-4 text-center text-blue-400">
-                Can't find a Hackathon? Ask our Google Gemini AI
-              </h2>
-              <GeminiAssistant />
-            </div>
-          </div>
+          <Home />
         ) : (
           <Login onLoginSuccess={handleLoginSuccess} />
         )}
