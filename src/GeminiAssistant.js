@@ -12,79 +12,76 @@ const GeminiAssistant = () => {
   const searchHackathons = async () => {
     if (!query) return;
     setLoading(true);
+    setResults(null); 
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       
-      // Professional Prompt for Detailed Results
-      const prompt = `You are an expert Hackathon Scout. A user is looking for: "${query}".
-      Search and provide a detailed list of REAL upcoming and ongoing hackathons for 2026. 
-      For each hackathon found, you MUST provide:
-      - 🏆 Name of the Hackathon
-      - 📅 Date, Month, and Year (2026)
-      - 📍 Mode (Online or City Name)
-      - 💰 Prize Pool & Rewards (be specific)
-      - ⏳ Application Deadline
-      - 🔗 Official Registration Link
+      // Professional Unstop-style Prompt
+      const prompt = `Act as a Global Hackathon Database Scout (like Unstop/Devpost). 
+      Search for real-time "${query}" hackathons worldwide for the year 2026.
       
-      Format the output using clear bullet points and bold headings for easy reading. 
-      If no specific match is found, suggest the top 3 global hackathons happening this month.`;
+      For each hackathon, strictly provide:
+      1. 🏆 **Hackathon Name & Organizer**
+      2. 📅 **Event Dates** (Start Date - End Date, 2026)
+      3. 📍 **Location** (Mention City & Country OR "Online/Remote")
+      4. 💰 **Prize Pool & Perks** (Specific amount if available)
+      5. 📝 **Eligibility & Brief Info** (Who can join?)
+      6. ⏳ **Registration Deadline**
+      7. 🔗 **Official Link** (Provide the registration URL clearly)
+
+      Format the response using Markdown with bold headings, emojis, and clear spacing so it looks professional on a web page.`;
 
       const result = await model.generateContent(prompt);
-      const text = result.response.text();
-      setResults(text);
+      setResults(result.response.text());
     } catch (error) {
       console.error(error);
-      setResults("Our AI scout is temporarily busy. Please try searching again in a moment.");
+      setResults("System is busy fetching global data. Please try again in 10 seconds.");
     }
     setLoading(false);
   };
 
   return (
-    <div className="bg-gray-800/40 p-6 rounded-2xl border border-blue-500/20 shadow-xl mt-10">
+    <div className="bg-[#0f172a] p-8 rounded-3xl border border-blue-500/30 shadow-2xl mt-10">
       <div className="flex items-center gap-3 mb-6">
-        <div className="bg-blue-600 p-2 rounded-lg animate-pulse">
-          <span className="text-xl">🌐</span>
+        <div className="bg-blue-600 p-3 rounded-2xl">
+          <span className="text-2xl">🌐</span>
         </div>
         <div>
-          <h3 className="text-xl font-bold text-white">Global AI Scout</h3>
-          <p className="text-xs text-blue-300">Powered by Gemini 1.5 Flash • Real-time 2026 Updates</p>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Global AI Scout</h2>
+          <p className="text-blue-400 text-sm font-medium">Real-time Worldwide Hackathon Discovery</p>
         </div>
       </div>
-
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
         <input 
           type="text" 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Ex: Machine Learning hackathons in Feb 2026 with prizes..."
-          className="flex-1 bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          placeholder="Ex: 'Blockchain hackathons in USA' or 'Beginner hackathons in India'..."
+          className="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-6 py-4 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder:text-slate-600"
         />
         <button 
           onClick={searchHackathons}
           disabled={loading}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 px-8 py-3 rounded-xl font-bold text-white shadow-lg shadow-blue-900/20 disabled:opacity-50 transition-all"
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-10 py-4 rounded-2xl transition-all shadow-lg shadow-blue-900/40 disabled:opacity-50"
         >
-          {loading ? (
-            <span className="flex items-center gap-2">
-              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Searching...
-            </span>
-          ) : 'Search Live'}
+          {loading ? 'Fetching Details...' : 'Find Hackathons'}
         </button>
       </div>
 
       {results && (
-        <div className="bg-gray-900/90 p-5 rounded-xl border border-gray-700 max-h-[500px] overflow-y-auto custom-scrollbar">
-          <div className="flex justify-between items-center mb-4 border-b border-gray-800 pb-2">
-            <span className="text-blue-400 font-semibold flex items-center gap-2">
-              ✨ Live Intelligence Found:
+        <div className="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500 shadow-inner">
+          <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+            <span className="text-green-400 font-bold flex items-center gap-2">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+              Found Live Results:
             </span>
-            <button onClick={() => setResults(null)} className="text-gray-500 hover:text-white text-sm">Clear</button>
+            <button onClick={() => setResults(null)} className="text-slate-500 hover:text-white text-xs uppercase tracking-widest font-bold">Clear</button>
           </div>
-          <div className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
+          <div className="prose prose-invert max-w-none whitespace-pre-wrap text-slate-300 text-sm md:text-base leading-relaxed">
             {results}
           </div>
         </div>
