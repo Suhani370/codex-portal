@@ -5,14 +5,10 @@ import Home from './pages/Home';
 function App() {
   return (
     <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30">
-      {/* Navbar bina kisi extra props ke, simple aur clean */}
       <Navbar />
-      
       <main className="min-h-[80vh]">
-        {/* Home component ke andar hi humne Filters, Cards aur AI Scout rakha hai */}
         <Home />
       </main>
-
       <footer className="py-12 text-center border-t border-slate-900 bg-slate-950/50">
         <p className="text-gray-500 text-sm tracking-widest uppercase font-semibold font-mono">
           CodeX Portal &copy; 2026
